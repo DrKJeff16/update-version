@@ -35,3 +35,5 @@ jobs:
           checkName: mypy-lint # NOTE: this needs to be the same as the job name
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# vim: set ts=2 sts=2 sw=2 et ai si sta:

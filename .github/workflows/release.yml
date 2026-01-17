@@ -101,3 +101,5 @@ jobs:
         uses: pypa/gh-action-pypi-publish@v1.13.0
         with:
           packages-dir: dist/
+
+# vim: set ts=2 sts=2 sw=2 et ai si sta:

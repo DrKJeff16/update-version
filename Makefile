@@ -49,7 +49,8 @@ stubs: lint
 	@isort update_version
 	@echo -e "Done!\nLinting with mypy..."
 	@mypy update_version
-	@echo -e "Done!"
+	@echo -e "Done!\nRunning vim-eof-comment..."
+	@vim-eof-comment -e py,pyi,md,Makefile,yaml,yml,toml -nv .
 
 build: stubs
 	@echo -e "Building..."
