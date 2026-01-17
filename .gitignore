@@ -93,7 +93,6 @@ ipython_config.py
 #   having no cross-platform support, pipenv may install dependencies that don't work, or not
 #   install all needed dependencies.
 Pipfile.lock
-Pipfile
 
 # UV
 #   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
