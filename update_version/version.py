@@ -19,6 +19,7 @@ from .util import die
 version_info = VersionInfo([
     (0, 1, 0),
     (0, 1, 1),
+    (0, 1, 2),
 ])
 
 __version__: str = str(version_info)

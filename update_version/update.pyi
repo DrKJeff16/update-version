@@ -1,5 +1,9 @@
 from .args.parsing import arg_parser_init as arg_parser_init
 from .util import die as die
+from .util import verbose_print as verbose_print
+from .version import __version__ as __version__
+from .version import list_versions as list_versions
+from .version import version_print as version_print
 
 PATH: str
 
@@ -34,6 +38,22 @@ def retrieve_version(path: str, dashed: bool) -> list[int]:
     -------
     List[int]
         Major, Minor and Patch components tuple.
+    """
+def gen_version_str(version: list[int] | list[str], dashed: bool) -> str:
+    """
+    Generate the old version string.
+
+    Parameters
+    ----------
+    version : List[int] or List[str]
+        The version components separated (optionaly as integers).
+    dashed : bool
+        Whether the versioning is dashed.
+
+    Returns
+    -------
+    str
+        The old version as a whole string.
     """
 def main() -> int:
     """

@@ -95,7 +95,7 @@ def die(*msg, code: int = 0, func: Callable[[TextIO], None] | None = None, **kwa
     sys.exit(code)
 
 
-def verbose_print(*msg, verbose: bool | None = None, **kwargs) -> None:
+def verbose_print(*msg, verbose: bool, **kwargs) -> None:
     """
     Only prints the given data if verbose mode is activated.
 
@@ -103,7 +103,7 @@ def verbose_print(*msg, verbose: bool | None = None, **kwargs) -> None:
     ----------
     *msg
         Data to be printed.
-    verbose : bool or None, default=None
+    verbose : bool
         Flag to signal whether to execute this function or not.
     **kwargs
         Extra arguments for the ``print()`` function.
@@ -112,7 +112,7 @@ def verbose_print(*msg, verbose: bool | None = None, **kwargs) -> None:
     --------
     print : This function is essentially being wrapped around here.
     """
-    if verbose is None or not verbose:
+    if not verbose:
         return
 
     end: str = kwargs.get("end", "\n")

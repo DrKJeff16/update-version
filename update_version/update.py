@@ -11,7 +11,8 @@ from re import match
 from typing import List
 
 from .args.parsing import arg_parser_init
-from .util import die
+from .util import die, verbose_print
+from .version import __version__, list_versions, version_print
 
 PATH: str = realpath("./version.txt")
 
@@ -86,6 +87,32 @@ def retrieve_version(
     return res
 
 
+def gen_version_str(version: List[int] | List[str], dashed: bool) -> str:
+    """
+    Generate the old version string.
+
+    Parameters
+    ----------
+    version : List[int] or List[str]
+        The version components separated (optionaly as integers).
+    dashed : bool
+        Whether the versioning is dashed.
+
+    Returns
+    -------
+    str
+        The old version as a whole string.
+    """
+    data: List[str] = list()
+    for ver in version:
+        data.append(str(ver))
+
+    if dashed:
+        return ".".join(data[:-2]) + "." + "-".join(data[-2:])
+
+    return ".".join(data)
+
+
 def main() -> int:
     """
     Execute the script.
@@ -97,40 +124,54 @@ def main() -> int:
     """
     parser, ns = arg_parser_init()
 
+    if ns.version:
+        version_print(__version__)
+
+    if ns.list_versions:
+        list_versions()
+
     path: str = realpath("".join(ns.path) if ns.path is not str else ns.path)
     if not isfile(path):
         die(f"Unable to find `{path}`!", code=1)
 
-    dashed: bool = ns.dashed
     minor: bool = ns.minor
     major: bool = ns.major
     patch: bool = ns.patch
     extra: bool = ns.extra
+    dry_run: bool = ns.dry_run
+    dashed: bool = ns.dashed
+    verbose: bool = ns.verbose
 
-    patch = True if not (minor or major or patch or extra) else patch
-    dashed = True if extra else dashed
+    if dry_run:
+        verbose = True
 
-    replace = convert_to_version(
+    if extra:
+        dashed = True
+
+    if not (minor or major or patch or extra):
+        patch = True
+
+    replace: List[int] = convert_to_version(
         "".join(ns.replace) if ns.replace is not str else ns.replace,
         dashed
     )
-    new_version_list: List[str] = list()
+    old_version: List[int] = retrieve_version(path, dashed)
+    old_str: str = gen_version_str(old_version, dashed)
+
+    new_version: List[str] = list()
     if len(replace) == 0:
-        old_version = retrieve_version(path, dashed)
-        new_version_list = [str(n + 1 if cond else n)
-                            for n, cond in zip(old_version, (major, minor, patch, extra))]
+        new_version = [str(n + 1 if cond else n)
+                       for n, cond in zip(old_version, (major, minor, patch, extra))]
     else:
-        new_version_list = [str(x) for x in replace]
+        new_version = [str(x) for x in replace]
 
-    new_version = tuple(new_version_list)
-
-    if dashed:
-        new_str = ".".join(new_version[:-2]) + "." + "-".join(new_version[-2:]) + "\n"
-    else:
-        new_str = ".".join(new_version) + "\n"
+    new_str: str = gen_version_str(new_version, dashed)
+    verbose_print(f"{old_str}  ==>  {new_str}", verbose=verbose)
+    if dry_run:
+        return 0
 
     with open(path, "w") as file:
-        file.write(new_str)
+        file.write(new_str + "\n")
 
     return 0
 
