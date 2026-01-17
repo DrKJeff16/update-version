@@ -19,14 +19,14 @@ jobs:
         uses: actions/checkout@v6
       - name: Build Project Assets
         run: |
-          mkdir -pv vim-eof-comment
-          cp -rv vim_eof_comment README.md LICENSE Makefile vim-eof-comment
-          zip -r -9 vim-eof-comment.zip vim-eof-comment
-          tar cvJf vim-eof-comment.tar.xz vim-eof-comment
-          tar cvzf vim-eof-comment.tar.gz vim-eof-comment
-          sha512sum vim-eof-comment.zip vim-eof-comment.tar.gz vim-eof-comment.tar.xz >| sha512sums.txt
-          md5sum vim-eof-comment.zip vim-eof-comment.tar.gz vim-eof-comment.tar.xz >| md5sums.txt
-          rm -rfv vim-eof-comment
+          mkdir -pv update-version
+          cp -rv update_version README.md LICENSE Makefile update-version
+          zip -r -9 update-version.zip update-version
+          tar cvJf update-version.tar.xz update-version
+          tar cvzf update-version.tar.gz update-version
+          sha512sum update-version.zip update-version.tar.gz update-version.tar.xz >| sha512sums.txt
+          md5sum update-version.zip update-version.tar.gz update-version.tar.xz >| md5sums.txt
+          rm -rfv update-version
       - name: Get Release
         uses: joutvhu/get-release@v1.0.3
         with:
@@ -45,9 +45,9 @@ jobs:
         with:
           files: |
             Release.txt
-            vim-eof-comment.tar.xz
-            vim-eof-comment.tar.gz
-            vim-eof-comment.zip
+            update-version.tar.xz
+            update-version.tar.gz
+            update-version.zip
             md5sums.txt
             sha512sums.txt
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -86,11 +86,11 @@ jobs:
     environment:
       name: pypi
       # OPTIONAL: uncomment and update to include your PyPI project URL in the deployment status:
-      # url: https://pypi.org/p/vim-eof-comment
+      # url: https://pypi.org/p/update-version
       #
       # ALTERNATIVE: if your GitHub Release name is the PyPI project version string
       # ALTERNATIVE: exactly, uncomment the following line instead:
-      url: https://pypi.org/p/vim-eof-comment/${{ github.event.release.name }}
+      url: https://pypi.org/p/update-version/${{ github.event.release.name }}
     steps:
       - name: Retrieve Release Distributions
         uses: actions/download-artifact@v7

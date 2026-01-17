@@ -3,19 +3,19 @@ on:
   push:
     paths:
       - .github/workflows/flake8-lint.yml
-      - vim_eof_comment/*.py
-      - vim_eof_comment/args/*.py
-      - vim_eof_comment/comments/*.py
-      - vim_eof_comment/types/*.py
+      - update_version/*.py
+      - update_version/args/*.py
+      - update_version/comments/*.py
+      - update_version/types/*.py
     branches:
       - main
   pull_request:
     paths:
       - .github/workflows/flake8-lint.yml
-      - vim_eof_comment/*.py
-      - vim_eof_comment/args/*.py
-      - vim_eof_comment/comments/*.py
-      - vim_eof_comment/types/*.py
+      - update_version/*.py
+      - update_version/args/*.py
+      - update_version/comments/*.py
+      - update_version/types/*.py
     branches:
       - main
 jobs:
@@ -35,6 +35,6 @@ jobs:
         with:
           ignore: "D401"
           max-line-length: "100"
-          path: "vim_eof_comment"
+          path: "update_version"
           plugins: "flake8-pyi"
           exclude: ".tox,.git,*staticfiles*,build,locale,docs,tools,venv,.venv,*migrations*,*.pyc,*.pyi,__pycache__,test_*.py"
