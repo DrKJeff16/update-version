@@ -75,3 +75,5 @@ def verbose_print(*msg, verbose: bool | None = None, **kwargs) -> None:
     --------
     print : This function is essentially being wrapped around here.
     """
+
+# vim: set ts=4 sts=4 sw=4 et ai si sta:

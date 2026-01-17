@@ -36,3 +36,5 @@ def arg_parser_init(prog: str = 'update-version') -> tuple[ArgumentParser, Names
     namespace : argparse.Namespace
         The generated ``argparse.Namespace`` object.
     '''
+
+# vim: set ts=4 sts=4 sw=4 et ai si sta:

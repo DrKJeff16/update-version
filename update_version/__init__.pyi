@@ -7,3 +7,5 @@ from . import version as version
 __all__ = ['__version__', 'args', 'types', 'update', 'util', 'version']
 
 __version__: str
+
+# vim: set ts=4 sts=4 sw=4 et ai si sta:

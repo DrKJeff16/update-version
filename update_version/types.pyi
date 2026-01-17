@@ -152,3 +152,5 @@ class ParserSpec(TypedDict):
     """
     opts: list[str]
     kwargs: dict[str, Any]
+
+# vim: set ts=4 sts=4 sw=4 et ai si sta:
