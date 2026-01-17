@@ -2,7 +2,7 @@ from argparse import ArgumentParser, Namespace
 
 from ..types import ParserSpec
 
-__all__ = ['bootstrap_args', 'arg_parser_init']
+__all__ = ['arg_parser_init', 'bootstrap_args']
 
 def bootstrap_args(parser: ArgumentParser, specs: list[ParserSpec]) -> Namespace:
     """

@@ -7,10 +7,10 @@ Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
 __all__ = [
     "VersionInfo",
+    "__version__",
     "list_versions",
     "version_info",
     "version_print",
-    "__version__",
 ]
 
 from .types import VersionInfo
@@ -20,6 +20,7 @@ version_info = VersionInfo([
     (0, 1, 0),
     (0, 1, 1),
     (0, 1, 2),
+    (0, 1, 3),
 ])
 
 __version__: str = str(version_info)
@@ -30,7 +31,7 @@ def list_versions() -> None:
     die(version_info.get_all_versions(), code=0)
 
 
-def version_print(version: str) -> None:
+def version_print(version: str, prog: str = "update-version") -> None:
     """
     Print project version, then exit.
 
@@ -38,7 +39,12 @@ def version_print(version: str) -> None:
     ----------
     version : str
         The version string.
+    prog : str, optional, default=``"update-version"``
+        The program string (can be empty).
     """
-    die(f"update-version-{version}", code=0)
+    if prog != "":
+        prog += " - "
+
+    die(f"{prog}{version}", code=0)
 
 # vim: set ts=4 sts=4 sw=4 et ai si sta:

@@ -6,8 +6,8 @@ Argument parsing utilities for ``update-version``.
 Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
 __all__ = [
-    "bootstrap_args",
     "arg_parser_init",
+    "bootstrap_args",
 ]
 
 from argparse import ArgumentDefaultsHelpFormatter, ArgumentError, ArgumentParser, Namespace
@@ -78,25 +78,31 @@ def arg_parser_init(prog: str = "update-version") -> Tuple[ArgumentParser, Names
             "required": False,
             "type": str
         }),
-        ParserSpec(opts=["-v", "--verbose"], kwargs={
+        ParserSpec(opts=["--verbose", "-v"], kwargs={
             "required": False,
             "action": "store_true",
             "help": "Enable verbose mode",
             "dest": "verbose",
         }),
-        ParserSpec(opts=["-V", "--version"], kwargs={
+        ParserSpec(opts=["--version", "-V"], kwargs={
             "required": False,
             "action": "store_true",
             "help": "Show version",
             "dest": "version",
         }),
-        ParserSpec(opts=["-L", "--list-versions"], kwargs={
+        ParserSpec(opts=["--print-version", "-P"], kwargs={
+            "required": False,
+            "action": "store_true",
+            "help": "Print the current project's version",
+            "dest": "print_version",
+        }),
+        ParserSpec(opts=["--list-versions", "-L"], kwargs={
             "required": False,
             "action": "store_true",
             "help": "List all versions of this script.",
             "dest": "list_versions",
         }),
-        ParserSpec(opts=["-D", "--dry-run"], kwargs={
+        ParserSpec(opts=["--dry-run", "-D"], kwargs={
             "required": False,
             "action": "store_true",
             "help": "Don't modify the files, but do execute the rest",
@@ -105,31 +111,37 @@ def arg_parser_init(prog: str = "update-version") -> Tuple[ArgumentParser, Names
         ParserSpec(opts=["--extra", "-e"], kwargs={
             "dest": "extra",
             "action": "store_true",
+            "help": "Update the `extra` (_._._-X) component. This auto-enables `-d`",
             "required": False,
         }),
         ParserSpec(opts=["--patch", "-p"], kwargs={
             "dest": "patch",
             "action": "store_true",
+            "help": "Update the `patch` (_._.x[-_]) component",
             "required": False,
         }),
         ParserSpec(opts=["--minor", "-m"], kwargs={
             "dest": "minor",
             "action": "store_true",
+            "help": "Update the `minor` (_.x._[-_]) component",
             "required": False,
         }),
         ParserSpec(opts=["--major", "-M"], kwargs={
             "dest": "major",
             "action": "store_true",
+            "help": "Update the `major` (x._._[-_]) component",
             "required": False,
         }),
         ParserSpec(opts=["--dashed", "-d"], kwargs={
             "dest": "dashed",
             "action": "store_true",
+            "help": "Whether the version spec includes dashes",
             "required": False,
         }),
         ParserSpec(opts=["--replace-with", "-r"], kwargs={
             "default": "",
             "dest": "replace",
+            "help": "The custom version given by the user. Versions with a dash `-` require `-d`",
             "metavar": "\"<MAJOR>.<MINOR>.<PATCH>[-<EXTRA>]\"",
             "nargs": 1,
             "required": False,

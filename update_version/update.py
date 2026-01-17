@@ -141,6 +141,7 @@ def main() -> int:
     dry_run: bool = ns.dry_run
     dashed: bool = ns.dashed
     verbose: bool = ns.verbose
+    print_version: bool = ns.print_version
 
     if dry_run:
         verbose = True
@@ -157,6 +158,9 @@ def main() -> int:
     )
     old_version: List[int] = retrieve_version(path, dashed)
     old_str: str = gen_version_str(old_version, dashed)
+
+    if print_version:
+        version_print(old_str, "")
 
     new_version: List[str] = list()
     if len(replace) == 0:
