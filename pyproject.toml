@@ -73,7 +73,7 @@ where = ["."]
 update-version = "update_version"
 
 [tool.setuptools.package-data]
-"update_version" = ["*.json", "*.py", "*.pyi", "py.typed"]
+"update_version" = ["*.py", "*.pyi", "py.typed"]
 
 [tool.mypy]
 exclude_gitignore      = true

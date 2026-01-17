@@ -1,4 +1,4 @@
-.PHONY: all help lint build local-install clean docs
+.PHONY: all help lint build local-install clean docs vim-eof-comment
 
 all: clean
 	@$(MAKE) local-install
@@ -49,10 +49,14 @@ stubs: lint
 	@isort update_version
 	@echo -e "Done!\nLinting with mypy..."
 	@mypy update_version
-	@echo -e "Done!\nRunning vim-eof-comment..."
-	@vim-eof-comment -e py,pyi,md,Makefile,yaml,yml,toml -nv .
+	@echo "Done!"
 
-build: stubs
+vim-eof-comment: stubs
+	@echo "Running vim-eof-comment..."
+	@vim-eof-comment -e py,pyi,md,Makefile,yaml,yml,toml -nv .
+	@echo "Done!"
+
+build: vim-eof-comment
 	@echo -e "Building..."
 	@python3 -m build
 	@echo -e "Done!"
