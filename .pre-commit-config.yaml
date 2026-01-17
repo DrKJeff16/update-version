@@ -1,0 +1,36 @@
+repos:
+  - repo: https://github.com/pycqa/isort
+    rev: 7.0.0
+    hooks:
+      - id: isort
+        verbose: true
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+        verbose: true
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.5
+    hooks:
+      - id: remove-crlf
+        verbose: true
+      - id: forbid-crlf # Forbid files containing CRLF end-lines to be committed
+        verbose: true
+  - repo: local
+    hooks:
+      - id: lint
+        name: Lint Script
+        language: system
+        types: [python]
+        files: ^(vim_eof_comment/.*\.pyi?|Makefile)$
+        entry: make lint
+        verbose: true
+      - id: run_script
+        name: Install and Run Script Locally
+        language: system
+        types: [python]
+        files: ^(vim_eof_comment/.*\.py|Makefile)$
+        entry: make run-script
+        verbose: true
+
+# vim: set ts=2 sts=2 sw=2 et ai si sta:

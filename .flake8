@@ -1,0 +1,23 @@
+[flake8]
+exclude =
+    *.pyc,
+    *.pyi,
+    *migrations*,
+    *staticfiles*,
+    .git,
+    .tox
+    .venv,
+    __pycache__,
+    build,
+    docs,
+    locale,
+    test_*.py
+    tools,
+    venv,
+max-line-length = 100
+show-source = True
+statistics = True
+count = True
+import-order-style = pep8
+per-file-ignores =
+    __init__.py: F401

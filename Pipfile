@@ -1,0 +1,31 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+argparse = "*"
+argcomplete = "*"
+
+[dev-packages]
+pyproject = "*"
+mypy = "*"
+mypy-extensions = "*"
+setuptools = "*"
+wheel = "*"
+pynvim = "*"
+build = "*"
+pre-commit = "*"
+numpydoc = "*"
+vim-eof-comment = "*"
+pip = "*"
+
+[scripts]
+lint = "flake8 --statistics --show-source --color always --max-line-length 100 --docstring-convention numpy --ignore=D401 ."
+build = "python3 -m build"
+local-install = "python3 -m pip install ."
+install = "python3 -m pip install"
+stubs = "stubgen -p update_version -o ."
+
+[requires]
+python_version = "3.14"

@@ -1,0 +1,103 @@
+name: Action Release
+on:
+  push:
+    tags:
+      - "*.*.*"
+  merge_group:
+    branches:
+      - main
+  release:
+    types:
+      - created
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Build Project Assets
+        run: |
+          mkdir -pv vim-eof-comment
+          cp -rv vim_eof_comment README.md LICENSE Makefile vim-eof-comment
+          zip -r -9 vim-eof-comment.zip vim-eof-comment
+          tar cvJf vim-eof-comment.tar.xz vim-eof-comment
+          tar cvzf vim-eof-comment.tar.gz vim-eof-comment
+          sha512sum vim-eof-comment.zip vim-eof-comment.tar.gz vim-eof-comment.tar.xz >| sha512sums.txt
+          md5sum vim-eof-comment.zip vim-eof-comment.tar.gz vim-eof-comment.tar.xz >| md5sums.txt
+          rm -rfv vim-eof-comment
+      - name: Get Release
+        uses: joutvhu/get-release@v1.0.3
+        with:
+          latest: true
+          prerelease: true
+          pattern: '^.*'
+          debug: true
+          throwing: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Release File
+        run: |
+          echo ${{ github.sha }} | tee Release.txt
+      - name: Release
+        uses: softprops/action-gh-release@v2.5.0
+        with:
+          files: |
+            Release.txt
+            vim-eof-comment.tar.xz
+            vim-eof-comment.tar.gz
+            vim-eof-comment.zip
+            md5sums.txt
+            sha512sums.txt
+          token: ${{ secrets.GITHUB_TOKEN }}
+  release-build:
+    permissions:
+      contents: read
+    needs:
+      - release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Build Release Distributions
+        run: |
+          # NOTE: put your own distribution build steps here.
+          python -m pip install -U setuptools argparse typing typing-extensions build
+          python -m build
+      - name: Upload Distributions
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-dists
+          path: dist/
+  pypi-publish:
+    runs-on: ubuntu-latest
+    needs:
+      - release-build
+    permissions:
+      # IMPORTANT: this permission is mandatory for trusted publishing
+      id-token: write
+    # Dedicated environments with protections for publishing are strongly recommended.
+    # For more information, see: https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules
+    environment:
+      name: pypi
+      # OPTIONAL: uncomment and update to include your PyPI project URL in the deployment status:
+      # url: https://pypi.org/p/vim-eof-comment
+      #
+      # ALTERNATIVE: if your GitHub Release name is the PyPI project version string
+      # ALTERNATIVE: exactly, uncomment the following line instead:
+      url: https://pypi.org/p/vim-eof-comment/${{ github.event.release.name }}
+    steps:
+      - name: Retrieve Release Distributions
+        uses: actions/download-artifact@v7
+        with:
+          name: release-dists
+          path: dist/
+      - name: Publish release distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.13.0
+        with:
+          packages-dir: dist/

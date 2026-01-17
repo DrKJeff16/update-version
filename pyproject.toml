@@ -1,0 +1,125 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires      = ["setuptools", "setuptools-scm>=8.0"]
+
+[project]
+authors = [{ name = "Guennadi Maximov C", email = "g.maxc.fox@protonmail.com" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python",
+    "Topic :: Text Processing :: Filters",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+dependencies = ["argparse"]
+description = "Updates your project's version from a versioning file"
+keywords = [
+    "versioning",
+    "updater",
+    "preprocessing",
+    "text",
+]
+license = "GPL-2.0-only"
+license-files = ["LICEN[CS]E"]
+maintainers = [{ name = "Guennadi Maximov C", email = "g.maxc.fox@protonmail.com" }]
+name = "update-version"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "0.1.0"
+
+    [project.scripts]
+    update-version = "update_version.update:main"
+
+    [project.urls]
+    Download   = "https://github.com/DrKJeff16/update-version/releases/latest"
+    Funding    = "https://github.com/sponsors/DrKJeff16"
+    Issues     = "https://github.com/DrKJeff16/update-version/issues"
+    Repository = "https://github.com/DrKJeff16/update-version"
+
+[tool.numpydoc_validation]
+checks = [
+    "all",  # report on all checks, except the below
+    "ES01",
+    "EX01",
+    "SA01",
+]
+exclude = [
+    '\.undocumented_method$',
+    '__call__$',
+    '__dict__$',
+    '__eq__$',
+    '__init__$',
+    '__ne__$',
+    '__repr__$',
+    '__str__$',
+]
+exclude_files = ['^module/gui.*', '^tests/.*']
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-dir]
+update-version = "update_version"
+
+[tool.setuptools.package-data]
+"update_version" = ["*.json", "*.py", "*.pyi", "py.typed"]
+
+[tool.mypy]
+exclude_gitignore      = true
+follow_untyped_imports = true
+python_version         = "3.14"
+warn_return_any        = true
+warn_unused_configs    = true
+
+[tool.pydocstyle]
+convention = "numpy"
+match      = ".*\\.py"
+verbose    = true
+
+[tool.autopep8]
+aggressive      = 3
+in-place        = true
+max_line_length = 100
+recursive       = true
+verbose         = true
+
+[tool.isort]
+line_length    = 100
+skip_gitignore = true
+skip_glob      = ["docs/*"]
+
+[tool.rope]
+automatic_soa = true
+ignored_resources = [
+    "*.pyc",
+    "*~",
+    ".git",
+    ".hg",
+    ".ropeproject",
+    ".svn",
+    ".tox",
+    ".venv",
+    "_svn",
+    "build",
+    "docs",
+    "venv",
+]
+indent_size = 4
+perform_doa = true
+save_history = true
+save_objectdb = true
+split_imports = false
+validate_objectdb = true
+
+# vim: set ts=4 sts=4 sw=4 et ai si sta:

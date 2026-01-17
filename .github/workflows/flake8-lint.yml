@@ -1,0 +1,40 @@
+name: Lint with flake8
+on:
+  push:
+    paths:
+      - .github/workflows/flake8-lint.yml
+      - vim_eof_comment/*.py
+      - vim_eof_comment/args/*.py
+      - vim_eof_comment/comments/*.py
+      - vim_eof_comment/types/*.py
+    branches:
+      - main
+  pull_request:
+    paths:
+      - .github/workflows/flake8-lint.yml
+      - vim_eof_comment/*.py
+      - vim_eof_comment/args/*.py
+      - vim_eof_comment/comments/*.py
+      - vim_eof_comment/types/*.py
+    branches:
+      - main
+jobs:
+  flake8-lint:
+    runs-on: ubuntu-latest
+    name: Lint with flake8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Python environment
+        uses: actions/setup-python@v6.1.0
+        with:
+          python-version: "3.10"
+          architecture: x64
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2.3.0
+        with:
+          ignore: "D401"
+          max-line-length: "100"
+          path: "vim_eof_comment"
+          plugins: "flake8-pyi"
+          exclude: ".tox,.git,*staticfiles*,build,locale,docs,tools,venv,.venv,*migrations*,*.pyc,*.pyi,__pycache__,test_*.py"
