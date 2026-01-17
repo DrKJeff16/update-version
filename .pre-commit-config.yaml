@@ -10,7 +10,7 @@ repos:
       - id: end-of-file-fixer
         verbose: true
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.5
+    rev: v1.5.6
     hooks:
       - id: remove-crlf
         verbose: true
@@ -22,15 +22,8 @@ repos:
         name: Lint Script
         language: system
         types: [python]
-        files: ^(vim_eof_comment/.*\.pyi?|Makefile)$
+        files: ^(update_version/.*\.pyi?|Makefile)$
         entry: make lint
-        verbose: true
-      - id: run_script
-        name: Install and Run Script Locally
-        language: system
-        types: [python]
-        files: ^(vim_eof_comment/.*\.py|Makefile)$
-        entry: make run-script
         verbose: true
 
 # vim: set ts=2 sts=2 sw=2 et ai si sta:
