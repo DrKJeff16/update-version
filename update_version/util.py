@@ -25,11 +25,7 @@ def error(*msg, **kwargs) -> None:
     *msg
         The data to be printed to stderr.
     **kwargs
-        Extra arguments for the ``print()`` function.
-
-    See Also
-    --------
-    print : This function is essentially being wrapped around here.
+        Extra arguments for the ``print()`` function (``end``, ``sep`` and ``flush``).
     """
     end: str = kwargs.get("end", "\n")
     sep: str = kwargs.get("sep", " ")
@@ -53,11 +49,7 @@ def die(*msg, code: int = 0, func: Callable[[TextIO], None] | None = None, **kwa
     func : Callable[[TextIO], None], optional
         A function to be called with a TextIO object if provided.
     **kwargs
-        Extra arguments for the ``print()`` function.
-
-    See Also
-    --------
-    update_version.util.error : Function to be used if exit code is not 0.
+        Extra arguments for the ``print()`` function (``end``, ``sep`` and ``flush``).
 
     Examples
     --------
@@ -106,11 +98,7 @@ def verbose_print(*msg, verbose: bool, **kwargs) -> None:
     verbose : bool
         Flag to signal whether to execute this function or not.
     **kwargs
-        Extra arguments for the ``print()`` function.
-
-    See Also
-    --------
-    print : This function is essentially being wrapped around here.
+        Extra arguments for the ``print()`` function (``end``, ``sep`` and ``flush``).
     """
     if not verbose:
         return

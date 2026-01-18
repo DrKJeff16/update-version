@@ -26,6 +26,11 @@ class VersionInfo:
     Methods
     -------
     get_all_versions()
+
+    See Also
+    --------
+    sys.version_info
+        The object instance this is based from.
     """
     major: int
     minor: int
