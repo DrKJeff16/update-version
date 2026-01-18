@@ -2,20 +2,14 @@ name: Lint with flake8
 on:
   push:
     paths:
+      - "*.py"
       - .github/workflows/flake8-lint.yml
-      - update_version/*.py
-      - update_version/args/*.py
-      - update_version/comments/*.py
-      - update_version/types/*.py
     branches:
       - main
   pull_request:
     paths:
+      - "*.py"
       - .github/workflows/flake8-lint.yml
-      - update_version/*.py
-      - update_version/args/*.py
-      - update_version/comments/*.py
-      - update_version/types/*.py
     branches:
       - main
 jobs:
