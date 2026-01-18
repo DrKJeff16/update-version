@@ -46,7 +46,7 @@ def gen_version_str(version: list[int] | list[str], dashed: bool) -> str:
     Parameters
     ----------
     version : List[int] or List[str]
-        The version components separated (optionaly as integers).
+        The version components separated (optionally as integers).
     dashed : bool
         Whether the versioning is dashed.
 
