@@ -22,21 +22,16 @@ jobs:
         uses: actions/setup-python@v6.1.0
         with:
           python-version: '3.14'
-      - name: Install pipenv
-        run: |
-          python -m pip install -U pip
-          pip install pipenv
       - name: Install vim-eof-comment
         run: |
-          pipenv install --dev vim-eof-comment
+          python -m pip install -U pip
+          pip install -U vim-eof-comment
       - name: Run vim-eof-comment
         run: |
-          pipenv run vim-eof-comment -e py,pyi,md,Makefile,yaml,toml -i py:4:Y,pyi:4:Y,md:2:Y -nv .
+          vim-eof-comment -e py,pyi,md,Makefile,yaml,toml -i py:4:Y,pyi:4:Y,md:2:Y -nv .
       - name: Auto Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v7.1.0
         with:
           commit_message: "chore: format files with `vim-eof-comment`"
           commit_options: "--signoff"
           branch: ${{ github.head_ref }}
-
-# vim: set ts=2 sts=2 sw=2 et ai si sta:
