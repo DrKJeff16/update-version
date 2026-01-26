@@ -12,6 +12,8 @@ __all__ = [
 
 from typing import Any, Dict, List, Tuple, TypedDict
 
+import argcomplete
+
 
 class VersionInfo():
     """
@@ -195,9 +197,12 @@ class ParserSpec(TypedDict):
         A list containing all the relevant iterations of the same option.
     kwargs : Dict[str, Any]
         Extra arguments for ``argparse.ArgumentParser``.
+    completer: argcomplete.completers.FilesCompleter or None
+        The ``argcomplete`` completer (or ``None``).
     """
 
     opts: List[str]
     kwargs: Dict[str, Any]
+    completer: argcomplete.completers.FilesCompleter | None
 
 # vim: set ts=4 sts=4 sw=4 et ai si sta:

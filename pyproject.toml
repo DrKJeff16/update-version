@@ -36,7 +36,7 @@ maintainers = [{ name = "Guennadi Maximov C", email = "g.maxc.fox@protonmail.com
 name = "update-version"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "0.1.4"
+version = "0.1.5"
 
     [project.scripts]
     update-version = "update_version.update:main"

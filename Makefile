@@ -37,7 +37,7 @@ lint:
 		--exclude .tox,.git,*staticfiles*,build,locale,docs,tools,venv,.venv,*migrations*,*.pyc,*.pyi,__pycache__,test_*.py \
 		update_version
 	@pydocstyle --convention=numpy --match='.*\.py' update_version
-	@autopep8 --aggressive --aggressive --aggressive --in-place --recursive update_version
+	# @autopep8 --aggressive --aggressive --aggressive --in-place --recursive update_version
 	$(eval files := $(shell fd --full-path update_version -e py))
 	@numpydoc lint $(files)
 	@echo "Done!"
