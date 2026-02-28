@@ -24,9 +24,9 @@ jobs:
           zip -r -9 update-version.zip update-version
           tar cvJf update-version.tar.xz update-version
           tar cvzf update-version.tar.gz update-version
-          sha512sum update-version.zip update-version.tar.gz update-version.tar.xz >| sha512sums.txt
-          md5sum update-version.zip update-version.tar.gz update-version.tar.xz >| md5sums.txt
-          rm -rfv update-version
+          7z a -mx9 -mmt -sdel update-version.7z update-version
+          sha512sum update-version.7z update-version.zip update-version.tar.gz update-version.tar.xz >| sha512sums.txt
+          md5sum update-version.7z update-version.zip update-version.tar.gz update-version.tar.xz >| md5sums.txt
       - name: Get Release
         uses: joutvhu/get-release@v1.0.3
         with:
@@ -45,11 +45,12 @@ jobs:
         with:
           files: |
             Release.txt
-            update-version.tar.xz
-            update-version.tar.gz
-            update-version.zip
             md5sums.txt
             sha512sums.txt
+            update-version.7z
+            update-version.tar.gz
+            update-version.tar.xz
+            update-version.zip
           token: ${{ secrets.GITHUB_TOKEN }}
   release-build:
     permissions:
