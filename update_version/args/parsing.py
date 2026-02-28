@@ -84,6 +84,7 @@ def arg_parser_init(prog: str = "update-version") -> Tuple[ArgumentParser, Names
             "path",
             completer=FilesCompleter(directories=False),
             default="./version.txt",
+            help="The path to the versioning file. Defaults to `./version.txt`",
             nargs="?"
         ),
         ParserSpec(
