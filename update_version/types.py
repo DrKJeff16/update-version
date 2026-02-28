@@ -10,12 +10,12 @@ __all__ = [
     "VersionInfo",
 ]
 
-from typing import Any, Dict, List, Tuple, TypedDict
+from typing import Any, Dict, List, Tuple
 
-import argcomplete
+from argcomplete.completers import ChoicesCompleter, DirectoriesCompleter, FilesCompleter
 
 
-class VersionInfo():
+class VersionInfo:
     """
     A ``sys.version_info``-like object type.
 
@@ -46,10 +46,10 @@ class VersionInfo():
         The object instance this is based from.
     """
 
+    all_versions: List[Tuple[int, int, int]]
     major: int
     minor: int
     patch: int
-    all_versions: List[Tuple[int, int, int]]
 
     def __init__(self, all_versions: List[Tuple[int, int, int]]):
         """
@@ -61,12 +61,12 @@ class VersionInfo():
             A list of tuples of three-integers, containing (in order) the major, minor and patch
             components.
         """
-        self.all_versions = all_versions.copy()
+        all_versions.sort()
 
-        all_versions = all_versions.copy()[::-1]
-        self.major = all_versions[0][0]
-        self.minor = all_versions[0][1]
-        self.patch = all_versions[0][2]
+        self.all_versions = all_versions.copy()
+        self.major = self.all_versions[::-1][0][0]
+        self.minor = self.all_versions[::-1][0][1]
+        self.patch = self.all_versions[::-1][0][2]
 
     def __str__(self) -> str:
         """
@@ -176,20 +176,24 @@ class VersionInfo():
         """
         result = ""
         for i, info in enumerate(self.all_versions):
-            result += f"{info[0]}.{info[1]}.{info[2]}"
-            if i == len(self.all_versions) - 1:
-                result += " (latest)"
-            else:
-                result += "\n"
+            suffix = " (latest)" if i == len(self.all_versions) - 1 else "\n"
+            result += f"{info[0]}.{info[1]}.{info[2]}{suffix}"
 
         return result
 
 
-class ParserSpec(TypedDict):
+class ParserSpec:
     """
     Stores the spec for ``argparse`` operations in a constant value.
 
-    This is a ``TypedDict``-like object.
+    Parameters
+    ----------
+    *opts
+        A list containing all the relevant iterations of the same option.
+    completer : Any
+        The ``argcomplete.completer`` object type (or ``None``).
+    **kwargs
+        Extra arguments for ``argparse.ArgumentParser``.
 
     Attributes
     ----------
@@ -197,12 +201,22 @@ class ParserSpec(TypedDict):
         A list containing all the relevant iterations of the same option.
     kwargs : Dict[str, Any]
         Extra arguments for ``argparse.ArgumentParser``.
-    completer: argcomplete.completers.FilesCompleter or None
-        The ``argcomplete`` completer (or ``None``).
+    completer : Any
+        The ``argcomplete.completer`` object type (or ``None``).
     """
 
     opts: List[str]
     kwargs: Dict[str, Any]
-    completer: argcomplete.completers.FilesCompleter | None
+    completer: ChoicesCompleter | DirectoriesCompleter | FilesCompleter | None
+
+    def __init__(
+        self,
+        *opts: List[str],
+        completer: ChoicesCompleter | DirectoriesCompleter | FilesCompleter | None = None,
+        **kwargs
+    ):
+        self.opts = [opt for opt in opts]
+        self.kwargs = kwargs
+        self.completer = completer
 
 # vim: set ts=4 sts=4 sw=4 et ai si sta:

@@ -1,4 +1,5 @@
-from typing import Callable, TextIO
+from io import TextIOWrapper
+from typing import Callable
 
 __all__ = ['die', 'error', 'verbose_print']
 
@@ -13,7 +14,7 @@ def error(*msg, **kwargs) -> None:
     **kwargs
         Extra arguments for the ``print()`` function (``end``, ``sep`` and ``flush``).
     """
-def die(*msg, code: int = 0, func: Callable[[TextIO], None] | None = None, **kwargs) -> None:
+def die(*msg, code: int = 0, func: Callable[[TextIOWrapper], None] | None = None, **kwargs) -> None:
     '''
     Kill the program execution.
 
@@ -26,8 +27,8 @@ def die(*msg, code: int = 0, func: Callable[[TextIO], None] | None = None, **kwa
         Data to be printed.
     code : int, default=0
         The exit code.
-    func : Callable[[TextIO], None], optional
-        A function to be called with a TextIO object if provided.
+    func : Callable[[io.TextIOWrapper], None], optional
+        A function to be called with a TextIOWrapper object if provided.
     **kwargs
         Extra arguments for the ``print()`` function (``end``, ``sep`` and ``flush``).
 

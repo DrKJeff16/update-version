@@ -11,9 +11,10 @@ __all__ = [
     "verbose_print",
 ]
 
-import sys
+from io import TextIOWrapper
+from sys import exit as Exit
 from sys import stderr, stdout
-from typing import Callable, TextIO
+from typing import Callable
 
 
 def error(*msg, **kwargs) -> None:
@@ -33,7 +34,7 @@ def error(*msg, **kwargs) -> None:
     print(*msg, file=stderr, end=end, sep=sep, flush=flush)
 
 
-def die(*msg, code: int = 0, func: Callable[[TextIO], None] | None = None, **kwargs) -> None:
+def die(*msg, code: int = 0, func: Callable[[TextIOWrapper], None] | None = None, **kwargs) -> None:
     """
     Kill the program execution.
 
@@ -46,8 +47,8 @@ def die(*msg, code: int = 0, func: Callable[[TextIO], None] | None = None, **kwa
         Data to be printed.
     code : int, default=0
         The exit code.
-    func : Callable[[TextIO], None], optional
-        A function to be called with a TextIO object if provided.
+    func : Callable[[io.TextIOWrapper], None], optional
+        A function to be called with a TextIOWrapper object if provided.
     **kwargs
         Extra arguments for the ``print()`` function (``end``, ``sep`` and ``flush``).
 
@@ -84,7 +85,7 @@ def die(*msg, code: int = 0, func: Callable[[TextIO], None] | None = None, **kwa
         else:
             error(*msg, **kwargs)
 
-    sys.exit(code)
+    Exit(code)
 
 
 def verbose_print(*msg, verbose: bool, **kwargs) -> None:

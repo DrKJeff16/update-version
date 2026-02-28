@@ -1,6 +1,6 @@
-from typing import Any, TypedDict
+from typing import Any
 
-import argcomplete
+from argcomplete.completers import ChoicesCompleter, DirectoriesCompleter, FilesCompleter
 
 __all__ = ['ParserSpec', 'VersionInfo']
 
@@ -34,10 +34,10 @@ class VersionInfo:
     sys.version_info
         The object instance this is based from.
     """
+    all_versions: list[tuple[int, int, int]]
     major: int
     minor: int
     patch: int
-    all_versions: list[tuple[int, int, int]]
     def __init__(self, all_versions: list[tuple[int, int, int]]) -> None:
         """
         Initialize VersionInfo object.
@@ -144,11 +144,18 @@ class VersionInfo:
         0.0.3 (latest)
         """
 
-class ParserSpec(TypedDict):
+class ParserSpec:
     """
     Stores the spec for ``argparse`` operations in a constant value.
 
-    This is a ``TypedDict``-like object.
+    Parameters
+    ----------
+    *opts
+        A list containing all the relevant iterations of the same option.
+    completer : Any
+        The ``argcomplete.completer`` object type (or ``None``).
+    **kwargs
+        Extra arguments for ``argparse.ArgumentParser``.
 
     Attributes
     ----------
@@ -156,11 +163,12 @@ class ParserSpec(TypedDict):
         A list containing all the relevant iterations of the same option.
     kwargs : Dict[str, Any]
         Extra arguments for ``argparse.ArgumentParser``.
-    completer: argcomplete.completers.FilesCompleter or None
-        The ``argcomplete`` completer (or ``None``).
+    completer : Any
+        The ``argcomplete.completer`` object type (or ``None``).
     """
     opts: list[str]
     kwargs: dict[str, Any]
-    completer: argcomplete.completers.FilesCompleter | None
+    completer: ChoicesCompleter | DirectoriesCompleter | FilesCompleter | None
+    def __init__(self, *opts: list[str], completer: ChoicesCompleter | DirectoriesCompleter | FilesCompleter | None = None, **kwargs) -> None: ...
 
 # vim: set ts=4 sts=4 sw=4 et ai si sta:

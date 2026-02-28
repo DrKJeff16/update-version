@@ -38,7 +38,7 @@ def bootstrap_args(parser: ArgumentParser, specs: List[ParserSpec]) -> Namespace
     """
     has_completer = False
     for spec in specs:
-        opts, kwargs, completer = spec["opts"], spec["kwargs"], spec["completer"]
+        opts, kwargs, completer = spec.opts, spec.kwargs, spec.completer
         if not completer or completer is None:
             parser.add_argument(*opts, **kwargs)
         else:
@@ -81,83 +81,108 @@ def arg_parser_init(prog: str = "update-version") -> Tuple[ArgumentParser, Names
         allow_abbrev=True
     )
     spec: List[ParserSpec] = [
-        ParserSpec(opts=["--input", "-i"], kwargs={
-            "default": "./version.txt",
-            "dest": "path",
-            "metavar": "</path/to/file>",
-            "nargs": 1,
-            "required": False,
-            "type": str
-        }, completer=FilesCompleter(directories=False)),
-        ParserSpec(opts=["--verbose", "-v"], kwargs={
-            "required": False,
-            "action": "store_true",
-            "help": "Enable verbose mode",
-            "dest": "verbose",
-        }, completer=None),
-        ParserSpec(opts=["--version", "-V"], kwargs={
-            "required": False,
-            "action": "store_true",
-            "help": "Show version",
-            "dest": "version",
-        }, completer=None),
-        ParserSpec(opts=["--print-version", "-P"], kwargs={
-            "required": False,
-            "action": "store_true",
-            "help": "Print the current project's version",
-            "dest": "print_version",
-        }, completer=None),
-        ParserSpec(opts=["--list-versions", "-L"], kwargs={
-            "required": False,
-            "action": "store_true",
-            "help": "List all versions of this script.",
-            "dest": "list_versions",
-        }, completer=None),
-        ParserSpec(opts=["--dry-run", "-D"], kwargs={
-            "required": False,
-            "action": "store_true",
-            "help": "Don't modify the files, but do execute the rest",
-            "dest": "dry_run",
-        }, completer=None),
-        ParserSpec(opts=["--extra", "-e"], kwargs={
-            "dest": "extra",
-            "action": "store_true",
-            "help": "Update the `extra` (_._._-X) component. This auto-enables `-d`",
-            "required": False,
-        }, completer=None),
-        ParserSpec(opts=["--patch", "-p"], kwargs={
-            "dest": "patch",
-            "action": "store_true",
-            "help": "Update the `patch` (_._.x[-_]) component",
-            "required": False,
-        }, completer=None),
-        ParserSpec(opts=["--minor", "-m"], kwargs={
-            "dest": "minor",
-            "action": "store_true",
-            "help": "Update the `minor` (_.x._[-_]) component",
-            "required": False,
-        }, completer=None),
-        ParserSpec(opts=["--major", "-M"], kwargs={
-            "dest": "major",
-            "action": "store_true",
-            "help": "Update the `major` (x._._[-_]) component",
-            "required": False,
-        }, completer=None),
-        ParserSpec(opts=["--dashed", "-d"], kwargs={
-            "dest": "dashed",
-            "action": "store_true",
-            "help": "Whether the version spec includes dashes",
-            "required": False,
-        }, completer=None),
-        ParserSpec(opts=["--replace-with", "-r"], kwargs={
-            "default": "",
-            "dest": "replace",
-            "help": "The custom version given by the user. Versions with a dash `-` require `-d`",
-            "metavar": "\"<MAJOR>.<MINOR>.<PATCH>[-<EXTRA>]\"",
-            "nargs": 1,
-            "required": False,
-            "type": str,
-        }, completer=None),
+        ParserSpec(
+            "--input",
+            "-i",
+            completer=FilesCompleter(directories=False),
+            default="./version.txt",
+            dest="path",
+            metavar="</path/to/file>",
+            nargs=1,
+            required=False,
+            type=str
+        ),
+        ParserSpec(
+            "--verbose",
+            "-v",
+            action="store_true",
+            dest="verbose",
+            help="Enable verbose mode",
+            required=False
+        ),
+        ParserSpec(
+            "--version",
+            "-V",
+            action="store_true",
+            dest="version",
+            help="Show version",
+            required=False
+        ),
+        ParserSpec(
+            "--print-version",
+            "-P",
+            action="store_true",
+            dest="print_version",
+            help="Print the current project's version",
+            required=False
+        ),
+        ParserSpec(
+            "--list-versions",
+            "-L",
+            action="store_true",
+            dest="list_versions",
+            help="List all versions of this script.",
+            required=False
+        ),
+        ParserSpec(
+            "--dry-run",
+            "-D",
+            action="store_true",
+            dest="dry_run",
+            help="Don't modify the files, but do execute the rest",
+            required=False
+        ),
+        ParserSpec(
+            "--extra",
+            "-e",
+            action="store_true",
+            dest="extra",
+            help="Update the `extra` (_._._-X) component. This auto-enables `-d`",
+            required=False
+        ),
+        ParserSpec(
+            "--patch",
+            "-p",
+            action="store_true",
+            dest="patch",
+            help="Update the `patch` (_._.x[-_]) component",
+            required=False
+        ),
+        ParserSpec(
+            "--minor",
+            "-m",
+            action="store_true",
+            dest="minor",
+            help="Update the `minor` (_.x._[-_]) component",
+            required=False
+        ),
+        ParserSpec(
+            "--major",
+            "-M",
+            action="store_true",
+            dest="major",
+            help="Update the `major` (x._._[-_]) component",
+            required=False
+        ),
+        ParserSpec(
+            "--dashed",
+            "-d",
+            action="store_true",
+            dest="dashed",
+            help="Whether the version spec includes dashes",
+            required=False
+        ),
+        ParserSpec(
+            "--replace-with",
+            "-r",
+            default="",
+            dest="replace",
+            help="The custom version given by the user. Versions with a dash `-` require `-d`",
+            metavar="\"<MAJOR>.<MINOR>.<PATCH>[-<EXTRA>]\"",
+            nargs=1,
+            required=False,
+            type=str,
+        ),
     ]
 
     return parser, bootstrap_args(parser, spec)
