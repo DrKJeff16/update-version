@@ -10,7 +10,7 @@ clean:
 
 distclean: clean
 	@echo "Cleaning Everything..."
-	@rm -rf .mypy_cache .ropeproject .pytest_cache
+	@rm -rf .mypy_cache .ropeproject .pytest_cache .ruff_cache
 	@echo -e "Done!"
 
 docs:
