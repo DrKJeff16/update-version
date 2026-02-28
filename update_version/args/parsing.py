@@ -10,7 +10,7 @@ __all__ = [
     "bootstrap_args",
 ]
 
-from argparse import ArgumentDefaultsHelpFormatter, ArgumentError, ArgumentParser, Namespace
+from argparse import ArgumentError, ArgumentParser, Namespace
 from typing import List, Tuple
 
 import argcomplete
@@ -51,7 +51,7 @@ def bootstrap_args(parser: ArgumentParser, specs: List[ParserSpec]) -> Namespace
     try:
         namespace: Namespace = parser.parse_args()
     except ArgumentError:
-        die(code=1, func=parser.print_usage)
+        die(code=1, func=parser.print_help)
 
     return namespace
 
@@ -76,21 +76,15 @@ def arg_parser_init(prog: str = "update-version") -> Tuple[ArgumentParser, Names
         prog=prog,
         description="Update your project's version file",
         exit_on_error=False,
-        formatter_class=ArgumentDefaultsHelpFormatter,
         add_help=True,
         allow_abbrev=True
     )
     spec: List[ParserSpec] = [
         ParserSpec(
-            "--input",
-            "-i",
+            "path",
             completer=FilesCompleter(directories=False),
             default="./version.txt",
-            dest="path",
-            metavar="</path/to/file>",
-            nargs=1,
-            required=False,
-            type=str
+            nargs="?"
         ),
         ParserSpec(
             "--verbose",
@@ -137,7 +131,7 @@ def arg_parser_init(prog: str = "update-version") -> Tuple[ArgumentParser, Names
             "-e",
             action="store_true",
             dest="extra",
-            help="Update the `extra` (_._._-X) component. This auto-enables `-d`",
+            help="Update the extra `N` (X.Y.Z-N) component. This auto-enables `-d`",
             required=False
         ),
         ParserSpec(
@@ -145,7 +139,7 @@ def arg_parser_init(prog: str = "update-version") -> Tuple[ArgumentParser, Names
             "-p",
             action="store_true",
             dest="patch",
-            help="Update the `patch` (_._.x[-_]) component",
+            help="Update the patch `Z` (X.Y.Z[-N]) component",
             required=False
         ),
         ParserSpec(
@@ -153,7 +147,7 @@ def arg_parser_init(prog: str = "update-version") -> Tuple[ArgumentParser, Names
             "-m",
             action="store_true",
             dest="minor",
-            help="Update the `minor` (_.x._[-_]) component",
+            help="Update the minor `Y` (X.Y.Z[-N]) component",
             required=False
         ),
         ParserSpec(
@@ -161,7 +155,7 @@ def arg_parser_init(prog: str = "update-version") -> Tuple[ArgumentParser, Names
             "-M",
             action="store_true",
             dest="major",
-            help="Update the `major` (x._._[-_]) component",
+            help="Update the major `X` (X.Y.Z[-N]) component",
             required=False
         ),
         ParserSpec(
