@@ -2,25 +2,29 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
-Version updater from a target file.
+Core component for ``update_version``.
 
 Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
+__all__ = [
+    "convert_to_version",
+    "gen_new_version",
+    "gen_version_str",
+    "main",
+    "retrieve_version",
+]
+
+from io import TextIOWrapper
 from os.path import isfile, realpath
 from re import match
-from typing import List
+from typing import List, Tuple
 
 from .args.parsing import arg_parser_init
 from .util import die, verbose_print
 from .version import __version__, list_versions, version_print
 
-PATH: str = realpath("./version.txt")
 
-
-def convert_to_version(
-    data: str,
-    dashed: bool
-) -> List[int]:
+def convert_to_version(data: str, dashed: bool) -> List[int]:
     """
     Convert input string to version tuple.
 
@@ -58,10 +62,7 @@ def convert_to_version(
     return [int(x) for x in data_list]
 
 
-def retrieve_version(
-    path: str,
-    dashed: bool
-) -> List[int]:
+def retrieve_version(path: str, dashed: bool) -> List[int]:
     """
     Get the version tuple from the version file.
 
@@ -77,7 +78,7 @@ def retrieve_version(
     List[int]
         Major, Minor and Patch components tuple.
     """
-    with open(PATH, "r") as file:
+    with open(path, "r") as file:
         data: str = file.read().strip("\n")
 
     res = convert_to_version(data, dashed)
@@ -113,6 +114,38 @@ def gen_version_str(version: List[int] | List[str], dashed: bool) -> str:
     return ".".join(data)
 
 
+def gen_new_version(
+    old_version: List[int],
+    replace: List[int],
+    components: Tuple[bool, bool, bool, bool]
+) -> List[str]:
+    """
+    Generate new version list.
+
+    Parameters
+    ----------
+    old_version : List[int]
+        The old version parsed as a list of integers.
+    replace : List[int]
+        The replaced version as a list of integers.
+    components : Tuple[bool, bool, bool, bool]
+        A tuple of booleans signaling, in order, the major, minor, patch and extra components.
+
+    Returns
+    -------
+    List[str]
+        A list of strings, each element is a version component, in order.
+    """
+    new_version: List[str] = list()
+
+    if len(replace) == 0:
+        new_version = [str(n + 1 if cond else n) for n, cond in zip(old_version, components)]
+    else:
+        new_version = [str(x) for x in replace]
+
+    return new_version
+
+
 def main() -> int:
     """
     Execute the script.
@@ -134,23 +167,14 @@ def main() -> int:
     if not isfile(path):
         die(f"Unable to find `{path}`!", code=1)
 
+    dry_run: bool = ns.dry_run
+    verbose: bool = True if dry_run else ns.verbose
     minor: bool = ns.minor
     major: bool = ns.major
-    patch: bool = ns.patch
     extra: bool = ns.extra
-    dry_run: bool = ns.dry_run
-    dashed: bool = ns.dashed
-    verbose: bool = ns.verbose
+    patch: bool = True if not (minor or major or ns.patch or extra) else ns.patch
+    dashed: bool = True if extra else ns.dashed
     print_version: bool = ns.print_version
-
-    if dry_run:
-        verbose = True
-
-    if extra:
-        dashed = True
-
-    if not (minor or major or patch or extra):
-        patch = True
 
     replace: List[int] = convert_to_version(
         "".join(ns.replace) if ns.replace is not str else ns.replace,
@@ -162,20 +186,18 @@ def main() -> int:
     if print_version:
         version_print(old_str, "")
 
-    new_version: List[str] = list()
-    if len(replace) == 0:
-        new_version = [str(n + 1 if cond else n)
-                       for n, cond in zip(old_version, (major, minor, patch, extra))]
-    else:
-        new_version = [str(x) for x in replace]
-
-    new_str: str = gen_version_str(new_version, dashed)
+    new_str: str = gen_version_str(
+        gen_new_version(old_version, replace, (major, minor, patch, extra)),
+        dashed
+    )
     verbose_print(f"{old_str}  ==>  {new_str}", verbose=verbose)
-    if dry_run:
-        return 0
 
-    with open(path, "w") as file:
-        file.write(new_str + "\n")
+    if not dry_run:
+        new_str += "\n" if new_str[-1] != "\n" else ""
+
+        file: TextIOWrapper = open(path, "w")
+        file.write(new_str)
+        file.close()
 
     return 0
 

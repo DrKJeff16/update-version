@@ -1,11 +1,4 @@
-from .args.parsing import arg_parser_init as arg_parser_init
-from .util import die as die
-from .util import verbose_print as verbose_print
-from .version import __version__ as __version__
-from .version import list_versions as list_versions
-from .version import version_print as version_print
-
-PATH: str
+__all__ = ['convert_to_version', 'gen_new_version', 'gen_version_str', 'main', 'retrieve_version']
 
 def convert_to_version(data: str, dashed: bool) -> list[int]:
     """
@@ -54,6 +47,24 @@ def gen_version_str(version: list[int] | list[str], dashed: bool) -> str:
     -------
     str
         The old version as a whole string.
+    """
+def gen_new_version(old_version: list[int], replace: list[int], components: tuple[bool, bool, bool, bool]) -> list[str]:
+    """
+    Generate new version list.
+
+    Parameters
+    ----------
+    old_version : List[int]
+        The old version parsed as a list of integers.
+    replace : List[int]
+        The replaced version as a list of integers.
+    components : Tuple[bool, bool, bool, bool]
+        A tuple of booleans signaling, in order, the major, minor, patch and extra components.
+
+    Returns
+    -------
+    List[str]
+        A list of strings, each element is a version component, in order.
     """
 def main() -> int:
     """

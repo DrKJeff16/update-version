@@ -154,7 +154,7 @@ class VersionInfo:
         patch : int
             Patch component.
         """
-        return (self.major, self. minor, self.patch)
+        return self.major, self. minor, self.patch
 
     def get_all_versions(self) -> str:
         """
