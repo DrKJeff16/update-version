@@ -1,11 +1,11 @@
 from . import args as args
-from . import update as update
+from . import core as core
 from . import util as util
 from . import version as version
 from .types import ParserSpec as ParserSpec
 from .types import VersionInfo as VersionInfo
 
-__all__ = ['ParserSpec', 'VersionInfo', '__version__', 'args', 'update', 'util', 'version']
+__all__ = ['ParserSpec', 'VersionInfo', '__version__', 'args', 'core', 'util', 'version']
 
 __version__: str
 

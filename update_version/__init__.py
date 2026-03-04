@@ -11,12 +11,12 @@ __all__ = [
     "VersionInfo",
     "__version__",
     "args",
-    "update",
+    "core",
     "util",
     "version",
 ]
 
-from . import args, update, util, version
+from . import args, core, util, version
 from .types import ParserSpec, VersionInfo
 
 __version__: str = version.__version__
