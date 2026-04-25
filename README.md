@@ -23,7 +23,7 @@ This script will install the following python packages as dependencies:
 
 ```
 update-version [-h] [-v] [-V] [-P] [-L] [-D] [-e] [-p] [-m] [-M] [-d]
-                    [-r <MAJOR>.<MINOR>.<PATCH>[-<EXTRA>]]
+                    [-c] [-r <MAJOR>.<MINOR>.<PATCH>[-<EXTRA>]]
                     [path]
 ```
 
