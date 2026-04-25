@@ -14,7 +14,6 @@ __all__ = [
     "retrieve_version",
 ]
 
-from io import TextIOWrapper
 from os.path import isfile, realpath
 from re import match
 from typing import List, Tuple
@@ -169,6 +168,7 @@ def main() -> int:
 
     dry_run: bool = ns.dry_run
     verbose: bool = True if dry_run else ns.verbose
+    create: bool = ns.create
     minor: bool = ns.minor
     major: bool = ns.major
     extra: bool = ns.extra
@@ -176,28 +176,33 @@ def main() -> int:
     dashed: bool = True if extra else ns.dashed
     print_version: bool = ns.print_version
 
-    replace: List[int] = convert_to_version(
-        "".join(ns.replace) if ns.replace is not str else ns.replace,
-        dashed
-    )
-    old_version: List[int] = retrieve_version(path, dashed)
-    old_str: str = gen_version_str(old_version, dashed)
+    if create:
+        if isfile(path):
+            die(f"Version file `{path}` already exists!", code=127)
 
-    if print_version:
-        version_print(old_str, "")
+        new_str: str = "0.0.1" if not dashed else "0.0.1-1"
+        verbose_print(f"N/A  ==>  {new_str}", verbose=verbose)
+    else:
+        replace: List[int] = convert_to_version(
+            "".join(ns.replace) if ns.replace is not str else ns.replace,
+            dashed
+        )
+        old_version: List[int] = retrieve_version(path, dashed)
+        old_str: str = gen_version_str(old_version, dashed)
 
-    new_str: str = gen_version_str(
-        gen_new_version(old_version, replace, (major, minor, patch, extra)),
-        dashed
-    )
-    verbose_print(f"{old_str}  ==>  {new_str}", verbose=verbose)
+        if print_version:
+            version_print(old_str, "")
+
+        new_str: str = gen_version_str(
+            gen_new_version(old_version, replace, (major, minor, patch, extra)),
+            dashed
+        )
+        verbose_print(f"{old_str}  ==>  {new_str}", verbose=verbose)
 
     if not dry_run:
         new_str += "\n" if new_str[-1] != "\n" else ""
-
-        file: TextIOWrapper = open(path, "w")
-        file.write(new_str)
-        file.close()
+        with open(path, "w") as file:
+            file.write(new_str)
 
     return 0
 

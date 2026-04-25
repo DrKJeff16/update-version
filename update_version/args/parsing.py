@@ -112,11 +112,19 @@ def arg_parser_init(prog: str = "update-version") -> Tuple[ArgumentParser, Names
             required=False
         ),
         ParserSpec(
+            "--create",
+            "-c",
+            action="store_true",
+            dest="create",
+            help="If no version file is found, create one",
+            required=False
+        ),
+        ParserSpec(
             "--list-versions",
             "-L",
             action="store_true",
             dest="list_versions",
-            help="List all versions of this script.",
+            help="List all versions of this script",
             required=False
         ),
         ParserSpec(

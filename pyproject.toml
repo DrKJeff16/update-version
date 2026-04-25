@@ -24,19 +24,14 @@ classifiers = [
 ]
 dependencies = ["argparse"]
 description = "Updates your project's version from a versioning file"
-keywords = [
-    "versioning",
-    "updater",
-    "preprocessing",
-    "text",
-]
+keywords = ["preprocessing", "text", "updater", "versioning"]
 license = "GPL-2.0-only"
 license-files = ["LICEN[CS]E"]
 maintainers = [{ name = "Guennadi Maximov C", email = "g.maxc.fox@protonmail.com" }]
 name = "update-version"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "0.2.1"
+version = "0.3.0"
 
     [project.scripts]
     update-version = "update_version.core:main"
@@ -49,10 +44,10 @@ version = "0.2.1"
 
 [tool.numpydoc_validation]
 checks = [
-    "all",  # report on all checks, except the below
     "ES01",
     "EX01",
     "SA01",
+    "all",  # report on all checks, except the below
 ]
 exclude = [
     '\.undocumented_method$',
@@ -89,9 +84,7 @@ verbose    = true
 
 [tool.autopep8]
 aggressive      = 3
-in-place        = true
 max_line_length = 100
-recursive       = true
 verbose         = true
 
 [tool.isort]
