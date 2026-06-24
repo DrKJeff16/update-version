@@ -1,7 +1,12 @@
-.PHONY: all help lint build local-install clean docs vim-eof-comment
+.PHONY: all help lint build local-install clean docs vim-eof-comment update
 
 all: clean
 	@$(MAKE) local-install
+
+update:
+	@pipenv lock
+	@pipenv sync
+	@pipenv sync --dev
 
 clean:
 	@echo "Cleaning..."
