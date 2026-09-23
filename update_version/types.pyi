@@ -113,3 +113,5 @@ class ParserSpec:
     opts: list[str]
     kwargs: dict[str, Any]
     def __init__(self, *opts: list[str], **kwargs) -> None: ...
+
+# vim: set ts=4 sts=4 sw=4 et ai si sta:

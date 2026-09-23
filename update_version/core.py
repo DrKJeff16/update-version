@@ -1,5 +1,3 @@
-# PYTHON_ARGCOMPLETE_OK
-# -*- coding: utf-8 -*-
 # Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
 Core component for ``update_version``.
@@ -103,7 +101,7 @@ def gen_version_str(version: list[int] | list[str], dashed: bool) -> str:
     str
         The old version as a whole string.
     """
-    data: list[str] = list()
+    data: list[str] = []
     for ver in version:
         data.append(str(ver))
 
@@ -151,7 +149,7 @@ def main() -> int:
     int
         The exit code.
     """
-    parser, ns = arg_parser_init()
+    _, ns = arg_parser_init()
 
     if ns.version:
         version_print(__version__)

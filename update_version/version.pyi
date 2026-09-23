@@ -20,3 +20,5 @@ def version_print(version: str, prog: str = 'update-version') -> None:
     prog : str, optional, default=``"update-version"``
         The program string (can be empty).
     '''
+
+# vim: set ts=4 sts=4 sw=4 et ai si sta:

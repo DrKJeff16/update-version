@@ -1,20 +1,20 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
 Version updater utilities.
 
 Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
+
 __all__ = [
     "die",
     "error",
     "verbose_print",
 ]
 
+from collections.abc import Callable
 from io import TextIOWrapper
 from sys import exit as Exit
 from sys import stderr, stdout
-from typing import Callable
 
 
 def error(*msg, **kwargs) -> None:
@@ -73,7 +73,7 @@ def die(*msg, code: int = 0, func: Callable[[TextIOWrapper], None] | None = None
     """
     try:
         code = int(code)
-    except Exception:
+    except ValueError:
         code = 1
 
     if func is not None and callable(func):
@@ -109,5 +109,6 @@ def verbose_print(*msg, verbose: bool, **kwargs) -> None:
     flush: bool = kwargs.get("flush", False)
 
     print(*msg, end=end, sep=sep, flush=flush)
+
 
 # vim: set ts=4 sts=4 sw=4 et ai si sta:

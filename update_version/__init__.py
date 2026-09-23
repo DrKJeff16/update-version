@@ -1,11 +1,10 @@
-# PYTHON_ARGCOMPLETE_OK
-# -*- coding: utf-8 -*-
 # Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
 Version updater from a target file.
 
 Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
+
 __all__ = [
     "ParserSpec",
     "VersionInfo",
