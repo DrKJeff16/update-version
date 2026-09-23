@@ -21,6 +21,7 @@ pip = "*"
 python-lsp-server = {extras = ["all"], version = "*"}
 vim-eof-comment = "*"
 progress = "*"
+ruff = "*"
 
 [scripts]
 lint = "flake8 --statistics --show-source --color always --max-line-length 100 --docstring-convention numpy --ignore=D401 ."
