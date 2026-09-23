@@ -1,12 +1,13 @@
-.PHONY: all help lint build local-install clean docs vim-eof-comment update
+.PHONY: all help lint build local-install clean docs vim-eof-comment update distclean
 
-all: clean
+all: distclean
 	@$(MAKE) local-install
 
 update:
 	@pipenv lock
 	@pipenv sync
 	@pipenv sync --dev
+	@pipenv clean
 
 clean:
 	@echo "Cleaning..."
@@ -56,12 +57,16 @@ stubs: lint
 	@pipenv run mypy update_version
 	@echo "Done!"
 
-vim-eof-comment: stubs
-	@echo "Running vim-eof-comment..."
+format: stubs ## Format using Ruff
+	@echo "Formatting with Ruff..."
+	@pipenv run ruff format update_version
+	@echo -e "Done!\n\nChecking with Ruff..."
+	@pipenv run ruff check update_version
+	@echo "Done!\nRunning vim-eof-comment..."
 	@pipenv run vim-eof-comment -e py,pyi,md,Makefile,yaml,yml,toml -nv .
 	@echo "Done!"
 
-build: vim-eof-comment
+build: format
 	@echo -e "Building..."
 	@pipenv run python3 -m build
 	@echo -e "Done!"

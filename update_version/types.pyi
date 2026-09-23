@@ -1,7 +1,5 @@
 from typing import Any
 
-from argcomplete.completers import ChoicesCompleter, DirectoriesCompleter, FilesCompleter
-
 __all__ = ['ParserSpec', 'VersionInfo']
 
 class VersionInfo:
@@ -10,7 +8,7 @@ class VersionInfo:
 
     Parameters
     ----------
-    all_versions : List[Tuple[int, int, int]]
+    all_versions : list[tuple[int, int, int]]
         A list of three number tuples, containing (in order) the major, minor and patch
         components.
 
@@ -22,7 +20,7 @@ class VersionInfo:
         The minor component of the version.
     patch : int
         The patch component of the version.
-    all_versions : List[Tuple[int, int, int]]
+    all_versions : list[tuple[int, int, int]]
         A list of tuples containing all the versions in the object instance.
 
     Methods
@@ -44,59 +42,9 @@ class VersionInfo:
 
         Parameters
         ----------
-        all_versions : List[Tuple[int, int, int]]
+        all_versions : list[tuple[int, int, int]]
             A list of tuples of three-integers, containing (in order) the major, minor and patch
             components.
-        """
-    def __str__(self) -> str:
-        """
-        Representate this object as a string.
-
-        This is what is returned when using ``str(VersionInfo(...))``.
-
-        Returns
-        -------
-        str
-            The string representation of the instance.
-
-        Examples
-        --------
-        Only one definition in constructor.
-
-        >>> from update_version.version import VersionInfo
-        >>> print(str(VersionInfo([(0, 0, 1)])))
-        0.0.1
-
-        Multiple definitions in constructor.
-
-        >>> from update_version.version import VersionInfo
-        >>> print(str(VersionInfo([(0, 0, 1), (0, 0, 2)])))
-        0.0.2
-        """
-    def __repr__(self) -> str:
-        """
-        Representate this object as a string.
-
-        This is what is returned when using ``print(VersionInfo(...))``.
-
-        Returns
-        -------
-        str
-            The string representation of the instance.
-
-        Examples
-        --------
-        Only one definition in constructor.
-
-        >>> from update_version.version import VersionInfo
-        >>> print(repr(VersionInfo([(0, 0, 1)])))
-        0.0.1
-
-        Multiple definitions in constructor.
-
-        >>> from update_version.version import VersionInfo
-        >>> print(repr(VersionInfo([(0, 0, 1), (0, 0, 2)])))
-        0.0.2
         """
     def __eq__(self, b) -> bool:
         """
@@ -152,23 +100,16 @@ class ParserSpec:
     ----------
     *opts
         A list containing all the relevant iterations of the same option.
-    completer : Any
-        The ``argcomplete.completer`` object type (or ``None``).
     **kwargs
         Extra arguments for ``argparse.ArgumentParser``.
 
     Attributes
     ----------
-    opts : List[str]
+    opts : list[str]
         A list containing all the relevant iterations of the same option.
-    kwargs : Dict[str, Any]
+    kwargs : dict[str, Any]
         Extra arguments for ``argparse.ArgumentParser``.
-    completer : Any
-        The ``argcomplete.completer`` object type (or ``None``).
     """
     opts: list[str]
     kwargs: dict[str, Any]
-    completer: ChoicesCompleter | DirectoriesCompleter | FilesCompleter | None
-    def __init__(self, *opts: list[str], completer: ChoicesCompleter | DirectoriesCompleter | FilesCompleter | None = None, **kwargs) -> None: ...
-
-# vim: set ts=4 sts=4 sw=4 et ai si sta:
+    def __init__(self, *opts: list[str], **kwargs) -> None: ...

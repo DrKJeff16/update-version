@@ -6,6 +6,7 @@ Core component for ``update_version``.
 
 Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
+
 __all__ = [
     "convert_to_version",
     "gen_new_version",
@@ -14,16 +15,15 @@ __all__ = [
     "retrieve_version",
 ]
 
+import re
 from os.path import isfile, realpath
-from re import match
-from typing import List, Tuple
 
 from .args.parsing import arg_parser_init
 from .util import die, verbose_print
 from .version import __version__, list_versions, version_print
 
 
-def convert_to_version(data: str, dashed: bool) -> List[int]:
+def convert_to_version(data: str, dashed: bool) -> list[int]:
     """
     Convert input string to version tuple.
 
@@ -36,7 +36,7 @@ def convert_to_version(data: str, dashed: bool) -> List[int]:
 
     Returns
     -------
-    List[int]
+    list[int]
         Major, Minor, Patch and (optionally) Dashed components (or an empty one if regex fails).
     """
     if data == "":
@@ -46,7 +46,7 @@ def convert_to_version(data: str, dashed: bool) -> List[int]:
     if dashed:
         match_str += "-[1-9][0-9]*"
 
-    if match(match_str + "$", data) is None:
+    if re.match(match_str + "$", data) is None:
         die(f"Bad regex for `{data}`!", code=1)
 
     data_list = data.split(".")
@@ -61,7 +61,7 @@ def convert_to_version(data: str, dashed: bool) -> List[int]:
     return [int(x) for x in data_list]
 
 
-def retrieve_version(path: str, dashed: bool) -> List[int]:
+def retrieve_version(path: str, dashed: bool) -> list[int]:
     """
     Get the version tuple from the version file.
 
@@ -74,7 +74,7 @@ def retrieve_version(path: str, dashed: bool) -> List[int]:
 
     Returns
     -------
-    List[int]
+    list[int]
         Major, Minor and Patch components tuple.
     """
     with open(path, "r") as file:
@@ -87,13 +87,13 @@ def retrieve_version(path: str, dashed: bool) -> List[int]:
     return res
 
 
-def gen_version_str(version: List[int] | List[str], dashed: bool) -> str:
+def gen_version_str(version: list[int] | list[str], dashed: bool) -> str:
     """
     Generate the old version string.
 
     Parameters
     ----------
-    version : List[int] or List[str]
+    version : list[int] or list[str]
         The version components separated (optionally as integers).
     dashed : bool
         Whether the versioning is dashed.
@@ -103,7 +103,7 @@ def gen_version_str(version: List[int] | List[str], dashed: bool) -> str:
     str
         The old version as a whole string.
     """
-    data: List[str] = list()
+    data: list[str] = list()
     for ver in version:
         data.append(str(ver))
 
@@ -114,35 +114,32 @@ def gen_version_str(version: List[int] | List[str], dashed: bool) -> str:
 
 
 def gen_new_version(
-    old_version: List[int],
-    replace: List[int],
-    components: Tuple[bool, bool, bool, bool]
-) -> List[str]:
+    old_version: list[int],
+    replace: list[int],
+    components: tuple[bool, bool, bool, bool],
+) -> list[str]:
     """
     Generate new version list.
 
     Parameters
     ----------
-    old_version : List[int]
+    old_version : list[int]
         The old version parsed as a list of integers.
-    replace : List[int]
+    replace : list[int]
         The replaced version as a list of integers.
-    components : Tuple[bool, bool, bool, bool]
+    components : tuple[bool, bool, bool, bool]
         A tuple of booleans signaling, in order, the major, minor, patch and extra components.
 
     Returns
     -------
-    List[str]
+    list[str]
         A list of strings, each element is a version component, in order.
     """
-    new_version: List[str] = list()
-
-    if len(replace) == 0:
-        new_version = [str(n + 1 if cond else n) for n, cond in zip(old_version, components)]
-    else:
-        new_version = [str(x) for x in replace]
-
-    return new_version
+    return (
+        [str(n + 1 if cond else n) for n, cond in zip(old_version, components)]
+        if len(replace) == 0
+        else [str(x) for x in replace]
+    )
 
 
 def main() -> int:
@@ -183,19 +180,17 @@ def main() -> int:
         new_str: str = "0.0.1" if not dashed else "0.0.1-1"
         verbose_print(f"N/A  ==>  {new_str}", verbose=verbose)
     else:
-        replace: List[int] = convert_to_version(
-            "".join(ns.replace) if ns.replace is not str else ns.replace,
-            dashed
+        replace: list[int] = convert_to_version(
+            "".join(ns.replace) if ns.replace is not str else ns.replace, dashed
         )
-        old_version: List[int] = retrieve_version(path, dashed)
+        old_version: list[int] = retrieve_version(path, dashed)
         old_str: str = gen_version_str(old_version, dashed)
 
         if print_version:
             version_print(old_str, "")
 
         new_str: str = gen_version_str(
-            gen_new_version(old_version, replace, (major, minor, patch, extra)),
-            dashed
+            gen_new_version(old_version, replace, (major, minor, patch, extra)), dashed
         )
         verbose_print(f"{old_str}  ==>  {new_str}", verbose=verbose)
 
@@ -205,5 +200,6 @@ def main() -> int:
             file.write(new_str)
 
     return 0
+
 
 # vim: set ts=4 sts=4 sw=4 et ai si sta:

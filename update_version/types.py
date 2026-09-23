@@ -5,14 +5,13 @@ Custom ``update_version`` objects.
 
 Copyright (c) 2026 Guennadi Maximov C. All Rights Reserved.
 """
+
 __all__ = [
     "ParserSpec",
     "VersionInfo",
 ]
 
-from typing import Any, Dict, List, Tuple
-
-from argcomplete.completers import ChoicesCompleter, DirectoriesCompleter, FilesCompleter
+from typing import Any
 
 
 class VersionInfo:
@@ -21,7 +20,7 @@ class VersionInfo:
 
     Parameters
     ----------
-    all_versions : List[Tuple[int, int, int]]
+    all_versions : list[tuple[int, int, int]]
         A list of three number tuples, containing (in order) the major, minor and patch
         components.
 
@@ -33,7 +32,7 @@ class VersionInfo:
         The minor component of the version.
     patch : int
         The patch component of the version.
-    all_versions : List[Tuple[int, int, int]]
+    all_versions : list[tuple[int, int, int]]
         A list of tuples containing all the versions in the object instance.
 
     Methods
@@ -46,18 +45,18 @@ class VersionInfo:
         The object instance this is based from.
     """
 
-    all_versions: List[Tuple[int, int, int]]
+    all_versions: list[tuple[int, int, int]]
     major: int
     minor: int
     patch: int
 
-    def __init__(self, all_versions: List[Tuple[int, int, int]]):
+    def __init__(self, all_versions: list[tuple[int, int, int]]):
         """
         Initialize VersionInfo object.
 
         Parameters
         ----------
-        all_versions : List[Tuple[int, int, int]]
+        all_versions : list[tuple[int, int, int]]
             A list of tuples of three-integers, containing (in order) the major, minor and patch
             components.
         """
@@ -67,60 +66,6 @@ class VersionInfo:
         self.major = self.all_versions[::-1][0][0]
         self.minor = self.all_versions[::-1][0][1]
         self.patch = self.all_versions[::-1][0][2]
-
-    def __str__(self) -> str:
-        """
-        Representate this object as a string.
-
-        This is what is returned when using ``str(VersionInfo(...))``.
-
-        Returns
-        -------
-        str
-            The string representation of the instance.
-
-        Examples
-        --------
-        Only one definition in constructor.
-
-        >>> from update_version.version import VersionInfo
-        >>> print(str(VersionInfo([(0, 0, 1)])))
-        0.0.1
-
-        Multiple definitions in constructor.
-
-        >>> from update_version.version import VersionInfo
-        >>> print(str(VersionInfo([(0, 0, 1), (0, 0, 2)])))
-        0.0.2
-        """
-        return f"{self.major}.{self.minor}.{self.patch}"
-
-    def __repr__(self) -> str:
-        """
-        Representate this object as a string.
-
-        This is what is returned when using ``print(VersionInfo(...))``.
-
-        Returns
-        -------
-        str
-            The string representation of the instance.
-
-        Examples
-        --------
-        Only one definition in constructor.
-
-        >>> from update_version.version import VersionInfo
-        >>> print(repr(VersionInfo([(0, 0, 1)])))
-        0.0.1
-
-        Multiple definitions in constructor.
-
-        >>> from update_version.version import VersionInfo
-        >>> print(repr(VersionInfo([(0, 0, 1), (0, 0, 2)])))
-        0.0.2
-        """
-        return self.__str__()
 
     def __eq__(self, b) -> bool:
         """
@@ -141,7 +86,7 @@ class VersionInfo:
 
         return self.major == b.major and self.minor == b.minor and self.patch == b.patch
 
-    def get_current_version(self) -> Tuple[int, int, int]:
+    def get_current_version(self) -> tuple[int, int, int]:
         """
         Get a tuple representing the current version.
 
@@ -154,7 +99,7 @@ class VersionInfo:
         patch : int
             Patch component.
         """
-        return self.major, self. minor, self.patch
+        return self.major, self.minor, self.patch
 
     def get_all_versions(self) -> str:
         """
@@ -190,33 +135,23 @@ class ParserSpec:
     ----------
     *opts
         A list containing all the relevant iterations of the same option.
-    completer : Any
-        The ``argcomplete.completer`` object type (or ``None``).
     **kwargs
         Extra arguments for ``argparse.ArgumentParser``.
 
     Attributes
     ----------
-    opts : List[str]
+    opts : list[str]
         A list containing all the relevant iterations of the same option.
-    kwargs : Dict[str, Any]
+    kwargs : dict[str, Any]
         Extra arguments for ``argparse.ArgumentParser``.
-    completer : Any
-        The ``argcomplete.completer`` object type (or ``None``).
     """
 
-    opts: List[str]
-    kwargs: Dict[str, Any]
-    completer: ChoicesCompleter | DirectoriesCompleter | FilesCompleter | None
+    opts: list[str]
+    kwargs: dict[str, Any]
 
-    def __init__(
-        self,
-        *opts: List[str],
-        completer: ChoicesCompleter | DirectoriesCompleter | FilesCompleter | None = None,
-        **kwargs
-    ):
+    def __init__(self, *opts: list[str], **kwargs):
         self.opts = [opt for opt in opts]
         self.kwargs = kwargs
-        self.completer = completer
+
 
 # vim: set ts=4 sts=4 sw=4 et ai si sta:

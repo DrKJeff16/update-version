@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 argparse = "*"
-argcomplete = "*"
+shtab = "*"
 
 [dev-packages]
 pyproject = "*"
@@ -18,8 +18,9 @@ build = "*"
 pre-commit = "*"
 numpydoc = "*"
 pip = "*"
-vim-eof-comment = "*"
 python-lsp-server = {extras = ["all"], version = "*"}
+vim-eof-comment = "*"
+progress = "*"
 
 [scripts]
 lint = "flake8 --statistics --show-source --color always --max-line-length 100 --docstring-convention numpy --ignore=D401 ."

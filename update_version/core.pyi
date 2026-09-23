@@ -13,7 +13,7 @@ def convert_to_version(data: str, dashed: bool) -> list[int]:
 
     Returns
     -------
-    List[int]
+    list[int]
         Major, Minor, Patch and (optionally) Dashed components (or an empty one if regex fails).
     """
 def retrieve_version(path: str, dashed: bool) -> list[int]:
@@ -29,7 +29,7 @@ def retrieve_version(path: str, dashed: bool) -> list[int]:
 
     Returns
     -------
-    List[int]
+    list[int]
         Major, Minor and Patch components tuple.
     """
 def gen_version_str(version: list[int] | list[str], dashed: bool) -> str:
@@ -38,7 +38,7 @@ def gen_version_str(version: list[int] | list[str], dashed: bool) -> str:
 
     Parameters
     ----------
-    version : List[int] or List[str]
+    version : list[int] or list[str]
         The version components separated (optionally as integers).
     dashed : bool
         Whether the versioning is dashed.
@@ -54,16 +54,16 @@ def gen_new_version(old_version: list[int], replace: list[int], components: tupl
 
     Parameters
     ----------
-    old_version : List[int]
+    old_version : list[int]
         The old version parsed as a list of integers.
-    replace : List[int]
+    replace : list[int]
         The replaced version as a list of integers.
-    components : Tuple[bool, bool, bool, bool]
+    components : tuple[bool, bool, bool, bool]
         A tuple of booleans signaling, in order, the major, minor, patch and extra components.
 
     Returns
     -------
-    List[str]
+    list[str]
         A list of strings, each element is a version component, in order.
     """
 def main() -> int:
@@ -75,5 +75,3 @@ def main() -> int:
     int
         The exit code.
     """
-
-# vim: set ts=4 sts=4 sw=4 et ai si sta:

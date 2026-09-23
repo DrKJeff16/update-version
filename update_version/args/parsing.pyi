@@ -12,7 +12,7 @@ def bootstrap_args(parser: ArgumentParser, specs: list[ParserSpec]) -> Namespace
     ----------
     parser : argparse.ArgumentParser
         The ``argparse.ArgumentParser`` object.
-    specs : List[update_version.types.ParserSpec]
+    specs : list[update_version.types.ParserSpec]
         A list containing ``ParserSpec`` objects.
 
     Returns
@@ -36,5 +36,3 @@ def arg_parser_init(prog: str = 'update-version') -> tuple[ArgumentParser, Names
     namespace : argparse.Namespace
         The generated ``argparse.Namespace`` object.
     '''
-
-# vim: set ts=4 sts=4 sw=4 et ai si sta:

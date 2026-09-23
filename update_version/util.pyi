@@ -64,5 +64,3 @@ def verbose_print(*msg, verbose: bool, **kwargs) -> None:
     **kwargs
         Extra arguments for the ``print()`` function (``end``, ``sep`` and ``flush``).
     """
-
-# vim: set ts=4 sts=4 sw=4 et ai si sta:

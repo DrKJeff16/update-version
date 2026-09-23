@@ -18,18 +18,12 @@ repos:
         verbose: true
   - repo: local
     hooks:
-      - id: lint
-        name: Lint Script
+      - id: build
+        name: Build package
         language: system
+        entry: make
+        always_run: true
         types: [python]
-        files: ^(update_version/.*\.pyi?|Makefile)$
-        entry: make lint
-        verbose: true
-      - id: vim_eof_comment
-        name: Run vim-eof-comment
-        language: system
-        files: ^(update_version/.*\.pyi?|Makefile)$
-        entry: make vim-eof-comment
         verbose: true
 
 # vim: set ts=2 sts=2 sw=2 et ai si sta:
